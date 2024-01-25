@@ -2,12 +2,12 @@ using UnityEngine;
 
 public class MainManager : MonoBehaviour
 {
-	public static MainManager Instance;
+	public static MainManager Instance { get; private set; }
+	private DataController dataController;
 
 	//DATA
-	private static readonly Color DefaultPlayerColor = Color.white;
-	private Color _playerColor = DefaultPlayerColor;
-	private string _playerName = "Player";
+	private Color _playerColor;
+	private string _playerName;
 	//END_DATA
 
 	private void Awake()
@@ -20,6 +20,9 @@ public class MainManager : MonoBehaviour
 
 		Instance = this;
 		DontDestroyOnLoad(gameObject);
+
+		dataController = new DataController();
+		LoadData();
 	}
 
 	public void SetPlayerColor(float r, float g, float b, float a)
@@ -38,5 +41,24 @@ public class MainManager : MonoBehaviour
 	public string GetPlayerName()
 	{
 		return _playerName;
+	}
+	public DataController GetDataManager()
+	{
+		return dataController;
+	}
+
+	private void LoadData()
+	{
+		dataController.LoadData();
+		var gameData = dataController.GetGameData();
+
+		if (gameData.playerColor != null)
+		{
+			_playerColor = gameData.playerColor;
+		}
+		if (gameData.playerName != null)
+		{
+			_playerName = gameData.playerName;
+		}
 	}
 }

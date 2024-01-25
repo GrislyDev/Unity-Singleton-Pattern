@@ -20,7 +20,7 @@ public class MenuUIHandler : MonoBehaviour
 
 	private void Start()
 	{
-		_mainManager = GameObject.Find("MainManager").GetComponent<MainManager>();
+		_mainManager = MainManager.Instance;
 	}
 
 	public void StartGame()
@@ -38,6 +38,12 @@ public class MenuUIHandler : MonoBehaviour
 
 	public void Exit()
 	{
+		var gameData = _mainManager.GetDataManager().GetGameData();
+
+		gameData.playerColor = _mainManager.GetPlayerColor();
+		gameData.playerName = _mainManager.GetPlayerName();
+
+		_mainManager.GetDataManager().SaveData();
 		// Close app
 #if UNITY_EDITOR
 		EditorApplication.ExitPlaymode();

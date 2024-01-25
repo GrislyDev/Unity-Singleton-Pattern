@@ -10,9 +10,7 @@ public class Player : MonoBehaviour
 
     private void Start()
     {
-        _mainManager = GameObject.Find("MainManager").GetComponent<MainManager>();
-        _playerName.text = _mainManager.GetPlayerName();
-        _playerColor.color = _mainManager.GetPlayerColor();
+		Init();
     }
 
 
@@ -22,5 +20,25 @@ public class Player : MonoBehaviour
         {
             SceneManager.LoadScene(0);
         }
+	}
+
+    private void Init()
+    {
+		// Get Main Manager object
+		_mainManager = GameObject.Find("MainManager").GetComponent<MainManager>();
+
+		// Set player color
+		_playerColor.color = _mainManager.GetPlayerColor();
+
+		// Set player name
+		if (_mainManager.GetPlayerName() != string.Empty)
+		{
+
+			_playerName.text = _mainManager.GetPlayerName();
+		}
+		else
+		{
+			_playerName.text = "Player";
+		}
 	}
 }
